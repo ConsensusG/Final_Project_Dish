@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import fetchRecipes from './utils/FetchRecipes';
 
 const App = () => {
@@ -16,10 +16,32 @@ const App = () => {
 
       const recipeDetails = await Promise.all(recipeDetailsPromises);
       setRecipes(recipeDetails);
+      setQuery('');
     } catch (error) {
       console.error('An error occurred:', error);
     }
   };
+
+  const handleKeywordSearch = (keyword: string) => {
+    const newQuery = `${query} ${keyword}`.trim();
+    setQuery(newQuery);
+    handleSearch();
+  };
+
+  const getRandomRecipes = async () => {
+    try {
+      const url = `https://api.spoonacular.com/recipes/random?number=8&apiKey=${import.meta.env.VITE_API_KEY}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      setRecipes(data.recipes);
+    } catch (error) {
+      console.error('An error occurred fetching random recipes:', error);
+    }
+  };
+
+  useEffect(() => {
+    getRandomRecipes();
+  }, []); // This ensures getRandomRecipes runs only once when the component mounts.
 
   const toggleReadMore = (index: number) => {
     if (expanded === index) {
@@ -38,6 +60,9 @@ const App = () => {
         placeholder="Search for recipes..."
       />
       <button onClick={handleSearch}>Search</button>
+      <button onClick={() => handleKeywordSearch('gluten free')}>Gluten Free</button>
+      <button onClick={() => handleKeywordSearch('vegetarian')}>Vegetarian</button>
+      <button onClick={() => handleKeywordSearch('vegan')}>Vegan</button>
       <div>
         {recipes.map((recipe: any, index: number) => (
           <div className="card" style={{ width: "18rem" }} key={index}>
@@ -63,6 +88,5 @@ const App = () => {
     </>
   );
 };
-
 
 export default App;
