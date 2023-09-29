@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react';
 import fetchRecipes from './utils/FetchRecipes';
+import './AppStyles.css'
 
 const App = () => {
   const [query, setQuery] = useState('');
   const [recipes, setRecipes] = useState<any[]>([]);
   const [expanded, setExpanded] = useState<number | null>(null);
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [showModalContent, setShowModalContent] = useState<boolean>(false);
+  const [modalRecipe, setModalRecipe] = useState<any>(null);
+
 
   const handleSearch = async () => {
     try {
@@ -16,7 +21,7 @@ const App = () => {
 
       const recipeDetails = await Promise.all(recipeDetailsPromises);
       setRecipes(recipeDetails);
-      setQuery('');
+      setQuery(''); // Clear the search bar
     } catch (error) {
       console.error('An error occurred:', error);
     }
@@ -41,15 +46,32 @@ const App = () => {
 
   useEffect(() => {
     getRandomRecipes();
-  }, []); // This ensures getRandomRecipes runs only once when the component mounts.
+  }, []);
 
-  const toggleReadMore = (index: number) => {
-    if (expanded === index) {
-      setExpanded(null);
+  const toggleModal = (recipe: any) => {
+    if (!isModalOpen) {
+      // If the modal is currently closed, open it and prepare the animation
+      setModalOpen(true);
+  
+      // Delay the content appearance for a smoother animation effect
+      setTimeout(() => {
+        setShowModalContent(true);
+        setModalRecipe(recipe);
+      }, 50);
     } else {
-      setExpanded(index);
+      // If modal is currently open and we are closing it, hide content immediately
+      setShowModalContent(false);
+  
+      // Delay closing the modal a bit to allow the content's hide animation to play
+      setTimeout(() => {
+        setModalOpen(false);
+        setModalRecipe(null);
+      }, 300);
     }
   };
+  
+  
+  
 
   return (
     <>
@@ -70,21 +92,30 @@ const App = () => {
             <div className="card-body">
               <h5 className="card-title">{recipe.title}</h5>
               <p className="card-text">
-                {expanded === index ? (
-                  <span dangerouslySetInnerHTML={{ __html: recipe.summary }}></span>
-                ) : (
-                  recipe.summary.length > 100
-                    ? <span dangerouslySetInnerHTML={{ __html: recipe.summary.substring(0, 100) + '...' }}></span>
-                    : <span dangerouslySetInnerHTML={{ __html: recipe.summary }}></span>
-                )}
+                <span dangerouslySetInnerHTML={{ 
+                  __html: recipe.summary.length > 100 
+                  ? recipe.summary.substring(0, 100) + '...'
+                  : recipe.summary 
+                }}></span>
               </p>
-              {recipe.summary.length > 100 && <button onClick={() => toggleReadMore(index)}>Read {expanded === index ? 'Less' : 'More'}</button>}
-              <a href="#" className="btn btn-primary">View Recipe</a>
+              <button onClick={() => toggleModal(recipe)}>View Details</button>
               <a href="#" className="btn btn-secondary">Add to Favorites</a>
             </div>
           </div>
         ))}
       </div>
+      {isModalOpen && (
+        <div className="modal">
+          <div className={`modal-content ${showModalContent ? 'show' : ''}`}>
+            <span className="close-button" onClick={() => { setModalOpen(false); setShowModalContent(false); }}>×</span>
+
+            <h5 className="card-title">{modalRecipe.title}</h5>
+            <img src={modalRecipe.image} className="card-img-top" alt={modalRecipe.title} />
+            <p dangerouslySetInnerHTML={{ __html: modalRecipe.summary }}></p>
+          </div>
+        </div>
+      )}
+
     </>
   );
 };
