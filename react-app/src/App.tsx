@@ -75,16 +75,40 @@ const App = () => {
 
   return (
     <>
-      <input
-        type="text"
-        value={query}
-        onChange={e => setQuery(e.target.value)}
-        placeholder="Search for recipes..."
-      />
-      <button onClick={handleSearch}>Search</button>
-      <button onClick={() => handleKeywordSearch('gluten free')}>Gluten Free</button>
-      <button onClick={() => handleKeywordSearch('vegetarian')}>Vegetarian</button>
-      <button onClick={() => handleKeywordSearch('vegan')}>Vegan</button>
+      <div className="search-main-container">
+        <div className="search-container">
+          <input
+            className="search-input"
+            type="text"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Search for recipes..."
+          />
+          <button className="search-button" onClick={handleSearch}>Search</button>
+        </div>
+        <div className="filter-icons">
+          <img
+            src="/icons/gluten-free.png"
+            alt="Gluten Free"
+            className="icon-button"
+            onClick={() => handleKeywordSearch('gluten free')}
+          />
+          <img
+            src="/icons/vegetarian.png"
+            alt="Vegetarian"
+            className="icon-button"
+            onClick={() => handleKeywordSearch('vegetarian')}
+          />
+          <img
+            src="/icons/vegan.png"
+            alt="Vegan"
+            className="icon-button"
+            onClick={() => handleKeywordSearch('vegan')}
+          />
+        </div>
+      </div>
+
+
       <div>
         {recipes.map((recipe: any, index: number) => (
           <div className="card" style={{ width: "18rem" }} key={index}>
