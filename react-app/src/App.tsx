@@ -13,19 +13,33 @@ const App = () => {
 
   const handleSearch = async () => {
     try {
+      // Check if the data is already in localStorage
+      const cachedData = localStorage.getItem(`recipes-${query}`);
+      
+      if (cachedData) {
+        setRecipes(JSON.parse(cachedData));
+        return;
+      }
+  
       const fetchedRecipes = await fetchRecipes(query);
       const recipeDetailsPromises = fetchedRecipes.map((recipe: any) =>
         fetch(`https://api.spoonacular.com/recipes/${recipe.id}/information?apiKey=${import.meta.env.VITE_API_KEY}`)
           .then(response => response.json())
       );
-
+  
       const recipeDetails = await Promise.all(recipeDetailsPromises);
+      console.log('Fetched Recipe Details:', recipeDetails);
+      
+      // Save the data in localStorage for future use
+      localStorage.setItem(`recipes-${query}`, JSON.stringify(recipeDetails));
+      
       setRecipes(recipeDetails);
       setQuery(''); // Clear the search bar
     } catch (error) {
       console.error('An error occurred:', error);
     }
   };
+  
 
   const handleKeywordSearch = (keyword: string) => {
     const newQuery = `${query} ${keyword}`.trim();
@@ -109,39 +123,43 @@ const App = () => {
       </div>
 
 
-      <div>
-        {recipes.map((recipe: any, index: number) => (
-          <div className="card" style={{ width: "18rem" }} key={index}>
-            <img src={recipe.image} className="card-img-top" alt={recipe.title} />
-            <div className="card-body">
-              <h5 className="card-title">{recipe.title}</h5>
-              <p className="card-text">
-                <span dangerouslySetInnerHTML={{ 
-                  __html: recipe.summary.length > 100 
-                  ? recipe.summary.substring(0, 100) + '...'
-                  : recipe.summary 
-                }}></span>
-              </p>
-              <button onClick={() => toggleModal(recipe)}>View Details</button>
-              <a href="#" className="btn btn-secondary">Add to Favorites</a>
-            </div>
-          </div>
-        ))}
+<div className="cards-container">
+  {recipes.map((recipe: any, index: number) => (
+    <div className="card" style={{ width: "18rem" }} key={index}>
+      <img src={recipe.image} className="card-img-top" alt={recipe.title} />
+      <div className="card-body">
+        <h5 className="card-title">{recipe.title}</h5>
+        <p className="card-text">
+          <span dangerouslySetInnerHTML={{ 
+            __html: recipe.summary.length > 100 
+            ? recipe.summary.substring(0, 100) + '...'
+            : recipe.summary 
+          }}></span>
+        </p>
+        <button onClick={() => toggleModal(recipe)}>View Details</button>
+        <a href="#" className="btn btn-secondary">Add to Favorites</a>
       </div>
-      {isModalOpen && (
-        <div className="modal">
-          <div className={`modal-content ${showModalContent ? 'show' : ''}`}>
-            <span className="close-button" onClick={() => { setModalOpen(false); setShowModalContent(false); }}>×</span>
+    </div>
+  ))}
+</div>
+{isModalOpen && (
+  <div className="modal">
+    <div className={`modal-content ${showModalContent ? 'show' : ''}`}>
+      <span className="close-button" onClick={() => { setModalOpen(false); setShowModalContent(false); }}>×</span>
 
-            <h5 className="card-title">{modalRecipe.title}</h5>
-            <img src={modalRecipe.image} className="card-img-top" alt={modalRecipe.title} />
-            <p dangerouslySetInnerHTML={{ __html: modalRecipe.summary }}></p>
-          </div>
-        </div>
+      {modalRecipe && (
+        <>
+          <h5 className="card-title">{modalRecipe.title}</h5>
+          <img src={modalRecipe.image} className="card-img-top" alt={modalRecipe.title} />
+          <p dangerouslySetInnerHTML={{ __html: modalRecipe.summary }}></p>
+        </>
       )}
+    </div>
+  </div>
+)}
 
-    </>
-  );
+</>
+);
 };
 
 export default App;
