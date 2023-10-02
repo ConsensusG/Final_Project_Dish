@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import fetchRecipes from './utils/FetchRecipes';
 import './AppStyles.css'
+import Slider from "react-slick";
+
 
 const App = () => {
   const [query, setQuery] = useState('');
@@ -84,6 +86,14 @@ const App = () => {
     }
   };
   
+  const sliderSettings = {
+    dots: true,  // Display dot indicators at the bottom
+    infinite: true,  // Infinite loop sliding
+    speed: 1000,  // Slide transition speed
+    slidesToShow: 5,  // Number of cards to show at once
+    slidesToScroll: 5,  // Number of cards to scroll at a time
+    // ... any other settings you want
+  };
   
   
 
@@ -123,24 +133,27 @@ const App = () => {
       </div>
 
 
-<div className="cards-container">
-  {recipes.map((recipe: any, index: number) => (
-    <div className="card" style={{ width: "18rem" }} key={index}>
-      <img src={recipe.image} className="card-img-top" alt={recipe.title} />
-      <div className="card-body">
-        <h5 className="card-title">{recipe.title}</h5>
-        <p className="card-text">
-          <span dangerouslySetInnerHTML={{ 
-            __html: recipe.summary.length > 100 
-            ? recipe.summary.substring(0, 100) + '...'
-            : recipe.summary 
-          }}></span>
-        </p>
-        <button onClick={() => toggleModal(recipe)}>View Details</button>
-        <a href="#" className="btn btn-secondary">Add to Favorites</a>
-      </div>
-    </div>
-  ))}
+      <div className="cards-container">
+        <Slider {...sliderSettings}>
+          {recipes.map((recipe: any, index: number) => (
+            <div className="card" style={{ width: "18rem" }} key={index}>
+              <img src={recipe.image} className="card-img-top" alt={recipe.title} />
+              <div className="card-body">
+                <h5 className="card-title">{recipe.title}</h5>
+                <p className="card-text">
+                  <span dangerouslySetInnerHTML={{
+                    __html: recipe.summary.length > 100
+                      ? recipe.summary.substring(0, 100) + '...'
+                      : recipe.summary
+                  }}></span>
+                </p>
+                <button className="btn btn-secondary view-details-btn" onClick={() => toggleModal(recipe)}>View Details</button>
+                <a href="#" className="btn btn-secondary add-to-faves-btn">Add to Faves</a>
+
+              </div>
+            </div>
+          ))}
+        </Slider>
 </div>
 {isModalOpen && (
   <div className="modal">
