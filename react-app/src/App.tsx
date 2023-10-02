@@ -94,10 +94,10 @@ const App = () => {
     slidesToScroll: 5,  // Number of cards to scroll at a time
     // ... any other settings you want
   };
-  
-  
+
 
   return (
+    
     <>
       <div className="search-main-container">
         <div className="search-container">

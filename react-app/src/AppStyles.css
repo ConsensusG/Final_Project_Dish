@@ -16,21 +16,31 @@
   }
   
   .modal-content {
-    background-color: #fefefe !important;
+    background-color: #e9e6df !important;
     margin: auto !important;
     padding: 20px !important;
-    border: 1px solid #888 !important;
-    width: 40% !important;
+    width: 35% !important;
     position: relative !important;
     transform: scale(0.7) !important; 
     opacity: 0 !important;  /* start with 0 opacity */
     transition: transform 0.3s, opacity 0.3s !important; 
+    font-family: 'Sofia Sans', sans-serif;
+    color: #000000 !important;
+    border: #000000 solid !important;
+    border-width: 2px !important;
   }
   
   .modal-content.show {
     transform: scale(1) !important;
     opacity: 1 !important;  
   }
+
+  .modal-content .card-title {
+    font-size: 26px;  /* Adjust this value as needed for desired size */
+    text-align: center;
+    padding-bottom: 15px;
+  }
+  
   
   .close-button {
     position: absolute !important;
@@ -45,6 +55,7 @@
     background-size: cover;  /* Cover the entire screen */
     background-attachment: fixed;  /* Fixed background */
     background-position: center;  /* Center the background */
+
   }
 
   body, html {
@@ -86,6 +97,9 @@
   width: 250px;
   outline: none;
   transition: border-color 0.3s;
+  font-family: 'Sofia Sans', sans-serif;
+  background-color: #e9e6df;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 
   /* Optional: style for the input when it's focused */
   &:focus {
@@ -96,16 +110,18 @@
 .search-button {
   /* Style for the search button */
   padding: 10px 15px;
-  background-color: #007BFF;
+  background-color: #149ad8;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.2s;
+  font-family: 'Sofia Sans', sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 
   /* Optional: style for the button when it's hovered */
   &:hover {
-    background-color: #0056b3;
+    background-color: #1283b8;
   }
 }
 
@@ -123,6 +139,7 @@
   overflow: hidden;  /* hides any overflow */
   padding-left: 130px;
   padding-right: 130px;  /* provides spacing from the edge of the screen */
+  font-family: 'Sofia Sans', sans-serif;
 }
 
 .card {
@@ -130,21 +147,53 @@
   height: 430px !important;  /* Adjust as needed */
   margin: 0 auto !important;
   margin-left: 12px !important;  /* Centers the card in its container */
-  background-color: #b1f5e0 !important;
+  background-color: #e9e6df !important;
+  border: #525252 solid !important;
+  border-width: 1px !important;
+}
+
+.card-title {
+  font-weight: 700;
+}
+
+.card-text {
+  color: #3b3b3b;
 }
 
 .btn {
   position: absolute !important;
   bottom: 15px;  /* adjust this value as needed */
   /* other styles... */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  
 }
 
 .view-details-btn {
-  left: 15px;  /* adjust this value as needed */
+  left: 22px;  /* adjust this value as needed */
   /* other styles... */
+  background-color: #05b47b !important;
+  &:hover {
+    background-color: #099667 !important;
+  }
+  /* border: #000000 solid !important;
+  border-width: 1px !important; */
 }
 
 .add-to-faves-btn {
-  right: 15px;  /* adjust this value as needed */
+  right: 22px;  /* adjust this value as needed */
   /* other styles... */
+  background-color: #149ad8 !important;
+  &:hover {
+    background-color: #1283b8 !important;
+  }
+  /* border: #000000 solid !important;
+  border-width: 1px !important; */
+}
+
+
+/* This is all the navbar stuff */
+
+.navbar {
+  padding: 0.20rem 1rem !important; /* Adjust as needed */
+  
 }
