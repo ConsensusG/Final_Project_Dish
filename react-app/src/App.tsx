@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import { BrowserRouter as Router,  Route,  Link,  Routes} from "react-router-dom";
 
 
+
 const App = () => {
   const [query, setQuery] = useState('');
   const [recipes, setRecipes] = useState<any[]>([]);
@@ -12,30 +13,63 @@ const App = () => {
   const [showModalContent, setShowModalContent] = useState<boolean>(false);
   const [modalRecipe, setModalRecipe] = useState<any>(null);
   const [favoriteRecipes, setFavoriteRecipes] = useState<any[]>([]);
+  const [notesForRecipes, setNotesForRecipes] = useState<Record<number, string>>({});
+  const [selectedRecipeForNotes, setSelectedRecipeForNotes] = useState<number | null>(null);
 
   function Favorites() {
     return (
-      <div className="cards-container">
-        {favoriteRecipes.map((recipe: any, index: number) => (
-          <div className="card" style={{ width: "18rem" }} key={index}>
-            <img src={recipe.image} className="card-img-top" alt={recipe.title} />
-            <div className="card-body">
-              <h5 className="card-title">{recipe.title}</h5>
-              <p className="card-text">
-                <span dangerouslySetInnerHTML={{
-                  __html: recipe.summary.length > 100
-                    ? recipe.summary.substring(0, 100) + '...'
-                    : recipe.summary
-                }}></span>
-              </p>
-              <button className="btn btn-secondary view-details-btn" onClick={() => toggleModal(recipe)}>View Details</button>
-              <button className="btn btn-secondary add-to-faves-btn" onClick={() => addToFavorites(recipe)}>Add to Faves</button>
+        <div className="favorites-container">
+            <div className="cards-container">
+                {favoriteRecipes.map((recipe: any, index: number) => (
+                    <div className="card" style={{ width: "18rem" }} key={index}>
+                        <img src={recipe.image} className="card-img-top" alt={recipe.title} />
+                        <div className="card-body">
+                            <h5 className="card-title">{recipe.title}</h5>
+                            <p className="card-text">
+                                <span dangerouslySetInnerHTML={{
+                                    __html: recipe.summary.length > 100
+                                        ? recipe.summary.substring(0, 100) + '...'
+                                        : recipe.summary
+                                }}></span>
+                            </p>
+                            <button 
+                                className="btn btn-secondary add-notes-btn" 
+                                onClick={() => setSelectedRecipeForNotes(recipe.id)}
+                            >
+                                Add/Edit Notes
+                            </button>
+                            <button 
+                                className="btn btn-danger delete-fave-btn" 
+                                onClick={() => deleteFavorite(recipe)}
+                            >
+                                Delete Fave
+                            </button>
+                        </div>
+                    </div>
+                ))}
             </div>
-          </div>
-        ))}
-      </div>
+            
+            {selectedRecipeForNotes && (
+                <div className="notes-container">
+                    <textarea 
+                        value={notesForRecipes[selectedRecipeForNotes] || ''}
+                        onChange={(e) => handleNoteChange(e, selectedRecipeForNotes)}
+                        placeholder="Add your notes here..."
+                    />
+                    <button onClick={() => setSelectedRecipeForNotes(null)}>Close</button>
+                </div>
+            )}
+        </div>
     );
-  }
+}
+
+  
+
+
+const handleNoteChange = (event: React.ChangeEvent<HTMLTextAreaElement>, recipeId: number) => {
+  setNotesForRecipes((prevNotes: Record<number, string>) => ({ ...prevNotes, [recipeId]: event.target.value }));
+};
+
 
 
   const handleSearch = async () => {

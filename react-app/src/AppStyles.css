@@ -201,3 +201,31 @@
 
 /* this is all the favorites page stuff */
 
+.favorites-container {
+  display: flex;
+}
+
+.cards-container {
+  flex: 1;
+}
+
+.notes-container {
+  flex: 1;
+  padding: 1rem;
+  border-left: 1px solid #ccc;
+}
+
+.notes-container {
+  height: 300px; /* Adjust as necessary */
+  overflow: auto;
+  margin-top: 200px; /* Spacing from the top */
+  padding: 10px;
+  border: 1px solid #ddd; /* Optional border */
+}
+
+.notes-container textarea {
+  width: 100%; /* Take full width of the container */
+  height: 250px; /* Adjust as necessary */
+  padding: 10px;
+  box-sizing: border-box; /* So that padding doesn't increase the total width */
+}
