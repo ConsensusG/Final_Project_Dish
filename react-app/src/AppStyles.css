@@ -55,7 +55,6 @@
     background-size: cover;  /* Cover the entire screen */
     background-attachment: fixed;  /* Fixed background */
     background-position: center;  /* Center the background */
-
   }
 
   body, html {
@@ -195,7 +194,23 @@
 
 .navbar {
   padding: 0.20rem 1rem !important; /* Adjust as needed */
-  
+}
+
+.navbar-nav {
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.nav-item {
+  margin-left: 15px !important;  /* Add some space between items */
+}
+
+.navbar.bg-dark {
+  background-color: #05b47b !important;
+}
+
+.nav-link {
+  color: white !important;
 }
 
 
@@ -203,29 +218,90 @@
 
 .favorites-container {
   display: flex;
+  align-items: center;
+  height: 100vh; /* this ensures the container takes the full height of the viewport */
+  font-family: 'Sofia Sans', sans-serif;
 }
 
-.cards-container {
-  flex: 1;
-}
 
 .notes-container {
   flex: 1;
   padding: 1rem;
-  border-left: 1px solid #ccc;
-}
-
-.notes-container {
-  height: 300px; /* Adjust as necessary */
-  overflow: auto;
-  margin-top: 200px; /* Spacing from the top */
-  padding: 10px;
-  border: 1px solid #ddd; /* Optional border */
+  display: flex;  /* added */
+  justify-content: center;  /* added */
+  align-items: center;  /* added */
+  flex-direction: column;  /* added */
 }
 
 .notes-container textarea {
-  width: 100%; /* Take full width of the container */
-  height: 250px; /* Adjust as necessary */
+  width: 40%; /* adjusted from 100% to 50% */
+  height: 200px;
   padding: 10px;
-  box-sizing: border-box; /* So that padding doesn't increase the total width */
+  box-sizing: border-box;
+  border-radius: 5px;
+  margin-right: 300px;
+  margin-bottom: 5px;
+}
+
+.Favorites-close-button {
+  margin-left: 240px;
+  margin-bottom: 50px;
+}
+
+.favorites-card {
+  width: 300px !important;
+  height: 320px !important;  /* Adjust as needed */
+  margin: 0 auto !important;
+  margin-left: 63px !important;  /* Centers the card in its container */
+  margin-bottom: 20px !important;
+  background-color: #e9e6df !important;
+  border: #525252 solid !important;
+  border-width: 1px !important;
+  position: relative !important;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.4);
+}
+
+.favorites-cards-container {
+  flex: 0 0 300px; /* This means: don't grow, don't shrink, stay at 300px wide */
+  height: 100vh; /* takes full height */
+  margin-right: 20px; /* gives some space between cards and notes */
+  justify-content: flex-start;
+}
+
+.favorites-card-title {
+  font-weight: 700;
+  margin-left: 10px;
+}
+
+
+.add-notes-btn {
+  background-color: #05b47b !important;
+  margin-left: 23px;
+  &:hover {
+    background-color: #099667 !important;
+  }
+}
+
+.delete-fave-btn {
+margin-left: 170px !important;
+}
+
+
+
+.favorites-card .btn {
+  position: absolute;
+  bottom: 17px;  /* Adjust this value to your liking */
+
+}
+
+.favorites-container {
+  background-image: url('/public/icons/Favorites-background.png');
+  background-size: cover;  /* Cover the entire screen */
+  background-attachment: fixed;  /* Fixed background */
+  background-position: center;  /* Center the background */
+  
+  display: flex;
+  align-items: center;
+  height: 100vh; /* this ensures the container takes the full height of the viewport */
+  font-family: 'Sofia Sans', sans-serif;
 }
