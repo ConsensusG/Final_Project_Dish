@@ -6,6 +6,7 @@ import { BrowserRouter as Router,  Route,  Link,  Routes} from "react-router-dom
 import Register from './Views/Register'; // Import the Register component
 import SignIn from './Views/Sign-In'; // Import the Sign-In component
 
+
 interface FavoritesProps {
   favoriteRecipes: any[];
   deleteFavorite: (recipeToDelete: any) => void;
@@ -68,6 +69,8 @@ const App = () => {
   const [favoriteRecipes, setFavoriteRecipes] = useState<any[]>([]);
   const [notesForRecipes, setNotesForRecipes] = useState<Record<number, string>>({});
   const [selectedRecipeForNotes, setSelectedRecipeForNotes] = useState<number | null>(null);
+  
+
   
 
 
