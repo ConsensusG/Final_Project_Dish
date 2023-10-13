@@ -44,14 +44,16 @@ export const removeRecipeFromFavorite = async (uid: string, recipe: Recipe) => {
 };
 
 export const fetchFavoriteRecipes = async (uid: string) => {
-  const userDoc = doc(db, "users", uid);
-  const docSnap = await getDoc(userDoc);
-
-  if (docSnap.exists()) {
-    const userData = docSnap.data();
-    return userData?.favorites || [];
-  } else {
-    console.log("No such document!");
-    return [];
-  }
-};
+    const userDoc = doc(db, "users", uid);
+    const docSnap = await getDoc(userDoc);
+  
+    if (docSnap.exists()) {
+      const userData = docSnap.data();
+      console.log("UserData from Firestore:", userData); // Add this line
+      return userData?.favorites || [];
+    } else {
+      console.log("No such document!");
+      return [];
+    }
+  };
+  

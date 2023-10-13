@@ -8,6 +8,9 @@ import SignIn from './Views/Sign-In'; // Import the Sign-In component
 import { saveRecipeToFavorite, removeRecipeFromFavorite, fetchFavoriteRecipes } from './utils/FirestoreFunctions.tsx';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Firebase.tsx';
+import { signOut } from "firebase/auth";
+
+
 
 
 
@@ -79,30 +82,21 @@ const App = () => {
 
     // Add this useEffect in your App component
   
-    const fetchFavorites = async () => {
-      if (userId) { // make sure userId is not null or undefined
-        const fetchedFavorites = await fetchFavoriteRecipes(userId);
-        setFavoriteRecipes(fetchedFavorites);
-      }
-    };
-
     useEffect(() => {
-      console.log("Current userId:", userId);
-    }, [userId]);
-
-  useEffect(() => {
-    fetchFavorites();
-  }, []);  // Empty dependency array means this runs once when App mounts
-
-
-    // Add this useEffect in your App component
-    useEffect(() => {
+      // Moved fetchFavorites inside this useEffect
+      const fetchFavorites = async () => {
+        if (userId) { 
+          const fetchedFavorites = await fetchFavoriteRecipes(userId);
+          console.log("Fetched Favorites:", fetchedFavorites);
+          setFavoriteRecipes(fetchedFavorites);
+        }
+      };
+    
+      // Handle user authentication state
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           // User is signed in, set the userId.
           setUserId(user.uid);
-          // Then fetch their favorites.
-          fetchFavorites();
         } else {
           // User is signed out, clear the favorites and userId.
           setUserId(null);
@@ -110,12 +104,28 @@ const App = () => {
         }
       });
     
+      fetchFavorites();  // Call it here to fetch favorites whenever userId changes
+    
       return () => unsubscribe(); // Cleanup subscription
-    }, []);
+    }, [userId]);  // Add userId here
+    
+  
+    useEffect(() => {
+      console.log("Current userId:", userId);
+    }, [userId]);
 
 
-
-  const handleSearch = async () => {
+    const handleSignOut = async () => {
+      try {
+        await signOut(auth);
+        console.log('User signed out');
+      } catch (error) {
+        console.error('Error signing out:', error);
+      }
+    };
+  
+  
+    const handleSearch = async () => {
     try {
       // Check if the data is already in localStorage
       const cachedData = localStorage.getItem(`recipes-${query}`);
@@ -246,7 +256,9 @@ return (
             <Link to="/sign-in" className="nav-link">Sign-in</Link>
           </li>
           <li className="nav-item">
-            <Link to="/sign-out" className="nav-link">Sign-out</Link>
+          <a href="#" className="nav-link" onClick={handleSignOut}>
+              Sign-out
+            </a>
           </li>
         </ul>
       </div>
