@@ -5,9 +5,14 @@ import Slider from "react-slick";
 import { BrowserRouter as Router,  Route,  Link,  Routes} from "react-router-dom";
 import Register from './Views/Register'; // Import the Register component
 import SignIn from './Views/Sign-In'; // Import the Sign-In component
+import { saveRecipeToFavorite, removeRecipeFromFavorite, fetchFavoriteRecipes } from './utils/FirestoreFunctions.tsx';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './Firebase.tsx';
+
 
 
 interface FavoritesProps {
+  userId: string | null;
   favoriteRecipes: any[];
   deleteFavorite: (recipeToDelete: any) => void;
   selectedRecipeForNotes: number | null;
@@ -69,9 +74,45 @@ const App = () => {
   const [favoriteRecipes, setFavoriteRecipes] = useState<any[]>([]);
   const [notesForRecipes, setNotesForRecipes] = useState<Record<number, string>>({});
   const [selectedRecipeForNotes, setSelectedRecipeForNotes] = useState<number | null>(null);
-  
+  const [userId, setUserId] = useState<string | null>(null);
 
+
+    // Add this useEffect in your App component
   
+    const fetchFavorites = async () => {
+      if (userId) { // make sure userId is not null or undefined
+        const fetchedFavorites = await fetchFavoriteRecipes(userId);
+        setFavoriteRecipes(fetchedFavorites);
+      }
+    };
+
+    useEffect(() => {
+      console.log("Current userId:", userId);
+    }, [userId]);
+
+  useEffect(() => {
+    fetchFavorites();
+  }, []);  // Empty dependency array means this runs once when App mounts
+
+
+    // Add this useEffect in your App component
+    useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in, set the userId.
+          setUserId(user.uid);
+          // Then fetch their favorites.
+          fetchFavorites();
+        } else {
+          // User is signed out, clear the favorites and userId.
+          setUserId(null);
+          setFavoriteRecipes([]);
+        }
+      });
+    
+      return () => unsubscribe(); // Cleanup subscription
+    }, []);
+
 
 
   const handleSearch = async () => {
@@ -97,6 +138,7 @@ const App = () => {
       localStorage.setItem(`recipes-${query}`, JSON.stringify(recipeDetails));
       
       setRecipes(recipeDetails);
+      console.log("Sample Recipe Object:", recipeDetails[0]);  // Log the first recipe object
       setQuery(''); // Clear the search bar
     } catch (error) {
       console.error('An error occurred:', error);
@@ -157,10 +199,17 @@ const App = () => {
     // ... any other settings you want
   };
 
-  const addToFavorites = (recipe: any) => {
+  const addToFavorites = async (recipe: any) => {
     // Check if the recipe is already in the favorites list
     if (!favoriteRecipes.some(favRecipe => favRecipe.id === recipe.id)) {
+      console.log('Inside the if condition');
+      console.log("Adding recipe to favorites...");
       setFavoriteRecipes(prevFavorites => [...prevFavorites, recipe]);
+      if (userId) { // make sure userId is not null or undefined
+        console.log("User ID is:", userId);
+        console.log("About to call saveRecipeToFavorite");
+        await saveRecipeToFavorite(userId, recipe);
+      }
     }
   };
 
@@ -168,11 +217,14 @@ const App = () => {
     console.log('Favorite Recipes:', favoriteRecipes);
   }, [favoriteRecipes]);
   
-  const deleteFavorite = (recipeToDelete: any) => {
+  const deleteFavorite = async (recipeToDelete: any) => {
     setFavoriteRecipes(prevFavorites => 
-        prevFavorites.filter(recipe => recipe.id !== recipeToDelete.id)
+      prevFavorites.filter(recipe => recipe.id !== recipeToDelete.id)
     );
-};
+    if (userId) { // make sure userId is not null or undefined
+      await removeRecipeFromFavorite(userId, recipeToDelete);
+    }
+  };
 
 
 return (
@@ -277,6 +329,7 @@ return (
           path="/favorites" 
           element={
             <Favorites 
+              userId={userId}
               favoriteRecipes={favoriteRecipes}
               deleteFavorite={deleteFavorite}
               selectedRecipeForNotes={selectedRecipeForNotes}

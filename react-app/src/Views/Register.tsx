@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,9 +12,12 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../Firebase"
 import { useNavigate } from 'react-router-dom';
 
+
+
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+    const [userId, setUserId] = useState<string | null>(null);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -29,6 +31,7 @@ export default function SignUp() {
             .then((userCredential) => {
                 // Signed up 
                 const user = userCredential.user;
+                setUserId(user.uid);
                 console.log(user)
                 setShowSuccessMessage(true);
                 // ...
