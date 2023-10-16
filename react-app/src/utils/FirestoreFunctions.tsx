@@ -49,7 +49,7 @@ export const fetchFavoriteRecipes = async (uid: string) => {
   
     if (docSnap.exists()) {
       const userData = docSnap.data();
-      console.log("UserData from Firestore:", userData); // Add this line
+      console.log("UserData from Firestore:", userData); 
       return userData?.favorites || [];
     } else {
       console.log("No such document!");

@@ -1,7 +1,4 @@
-// if (typeof process.env.NODE_ENV === 'undefined') {
-//   // manually set the environment to development
-//   process.env.NODE_ENV = 'development';
-// }
+
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'

@@ -3,8 +3,8 @@ import fetchRecipes from './utils/FetchRecipes';
 import './AppStyles.css'
 import Slider from "react-slick";
 import { BrowserRouter as Router,  Route,  Link,  Routes} from "react-router-dom";
-import Register from './Views/Register'; // Import the Register component
-import SignIn from './Views/Sign-In'; // Import the Sign-In component
+import Register from './Views/Register'; 
+import SignIn from './Views/Sign-In'; 
 import { saveRecipeToFavorite, removeRecipeFromFavorite, fetchFavoriteRecipes } from './utils/FirestoreFunctions.tsx';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Firebase.tsx';
@@ -80,10 +80,10 @@ const App = () => {
   const [userId, setUserId] = useState<string | null>(null);
 
 
-    // Add this useEffect in your App component
+
   
     useEffect(() => {
-      // Moved fetchFavorites inside this useEffect
+      
       const fetchFavorites = async () => {
         if (userId) { 
           const fetchedFavorites = await fetchFavoriteRecipes(userId);
@@ -92,22 +92,22 @@ const App = () => {
         }
       };
     
-      // Handle user authentication state
+
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
-          // User is signed in, set the userId.
+          
           setUserId(user.uid);
         } else {
-          // User is signed out, clear the favorites and userId.
+          
           setUserId(null);
           setFavoriteRecipes([]);
         }
       });
     
-      fetchFavorites();  // Call it here to fetch favorites whenever userId changes
+      fetchFavorites();  
     
-      return () => unsubscribe(); // Cleanup subscription
-    }, [userId]);  // Add userId here
+      return () => unsubscribe(); 
+    }, [userId]);  
     
   
     useEffect(() => {
@@ -127,7 +127,7 @@ const App = () => {
   
     const handleSearch = async () => {
     try {
-      // Check if the data is already in localStorage
+      
       const cachedData = localStorage.getItem(`recipes-${query}`);
       
       if (cachedData) {
@@ -144,12 +144,12 @@ const App = () => {
       const recipeDetails = await Promise.all(recipeDetailsPromises);
       console.log('Fetched Recipe Details:', recipeDetails);
       
-      // Save the data in localStorage for future use
+     
       localStorage.setItem(`recipes-${query}`, JSON.stringify(recipeDetails));
       
       setRecipes(recipeDetails);
-      console.log("Sample Recipe Object:", recipeDetails[0]);  // Log the first recipe object
-      setQuery(''); // Clear the search bar
+      console.log("Sample Recipe Object:", recipeDetails[0]);  
+      setQuery(''); 
     } catch (error) {
       console.error('An error occurred:', error);
     }
@@ -160,7 +160,7 @@ const App = () => {
     const newQuery = `${query} ${keyword}`.trim();
     setQuery(newQuery);
     handleSearch();
-    setQuery(''); // Clear the search bar
+    setQuery(''); 
   };
 
   const getRandomRecipes = async () => {
@@ -180,19 +180,19 @@ const App = () => {
 
   const toggleModal = (recipe: any) => {
     if (!isModalOpen) {
-      // If the modal is currently closed, open it and prepare the animation
+      
       setModalOpen(true);
   
-      // Delay the content appearance for a smoother animation effect
+      
       setTimeout(() => {
         setShowModalContent(true);
         setModalRecipe(recipe);
       }, 50);
     } else {
-      // If modal is currently open and we are closing it, hide content immediately
+      
       setShowModalContent(false);
   
-      // Delay closing the modal a bit to allow the content's hide animation to play
+      
       setTimeout(() => {
         setModalOpen(false);
         setModalRecipe(null);
@@ -201,21 +201,21 @@ const App = () => {
   };
   
   const sliderSettings = {
-    dots: true,  // Display dot indicators at the bottom
-    infinite: true,  // Infinite loop sliding
-    speed: 1000,  // Slide transition speed
-    slidesToShow: 5,  // Number of cards to show at once
-    slidesToScroll: 5,  // Number of cards to scroll at a time
-    // ... any other settings you want
+    dots: true,  
+    infinite: true,  
+    speed: 1000,  
+    slidesToShow: 5,  
+    slidesToScroll: 5,  
+    
   };
 
   const addToFavorites = async (recipe: any) => {
-    // Check if the recipe is already in the favorites list
+   
     if (!favoriteRecipes.some(favRecipe => favRecipe.id === recipe.id)) {
       console.log('Inside the if condition');
       console.log("Adding recipe to favorites...");
       setFavoriteRecipes(prevFavorites => [...prevFavorites, recipe]);
-      if (userId) { // make sure userId is not null or undefined
+      if (userId) { 
         console.log("User ID is:", userId);
         console.log("About to call saveRecipeToFavorite");
         await saveRecipeToFavorite(userId, recipe);
@@ -231,7 +231,7 @@ const App = () => {
     setFavoriteRecipes(prevFavorites => 
       prevFavorites.filter(recipe => recipe.id !== recipeToDelete.id)
     );
-    if (userId) { // make sure userId is not null or undefined
+    if (userId) { 
       await removeRecipeFromFavorite(userId, recipeToDelete);
     }
   };
@@ -351,8 +351,8 @@ return (
             />
           } 
       />
-      <Route path="/register" element={<Register />} />  {/* New Route for Register */}
-      <Route path="/sign-in" element={<SignIn />} />  {/* New Route for Sign-In */}
+      <Route path="/register" element={<Register />} /> 
+      <Route path="/sign-in" element={<SignIn />} /> 
     </Routes>
   </Router>
 );

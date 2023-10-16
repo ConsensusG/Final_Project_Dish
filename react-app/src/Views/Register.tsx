@@ -38,8 +38,8 @@ export default function SignUp() {
                 // ...
 
                 setTimeout(() => {
-                    setShowSuccessMessage(false); // Clear the state
-                    navigate('/sign-in'); // Navigate to the sign-in page
+                    setShowSuccessMessage(false); 
+                    navigate('/sign-in'); 
                 }, 2000);
 
             })
@@ -63,10 +63,10 @@ export default function SignUp() {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
+                    <Avatar sx={{ m: 1}} src="/icons/icons8-meal-48.png" />
+
+
+                    <Typography component="h1" variant="h5" className="page-title">
                         Register
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>

@@ -6,8 +6,8 @@ const fetchRecipes = async (query: string) => {
     
     if (response.ok) {
       const data = await response.json();
-      console.log(data);  // Add this line
-      return data.results; // Assuming 'results' is the key containing the recipes
+      console.log(data);  
+      return data.results; 
     } else {
       throw new Error('Failed to fetch recipes');
     }

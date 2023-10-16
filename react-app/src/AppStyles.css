@@ -22,7 +22,7 @@
     width: 35% !important;
     position: relative !important;
     transform: scale(0.7) !important; 
-    opacity: 0 !important;  /* start with 0 opacity */
+    opacity: 0 !important; 
     transition: transform 0.3s, opacity 0.3s !important; 
     font-family: 'Sofia Sans', sans-serif;
     color: #000000 !important;
@@ -36,7 +36,7 @@
   }
 
   .modal-content .card-title {
-    font-size: 26px;  /* Adjust this value as needed for desired size */
+    font-size: 26px; 
     text-align: center;
     padding-bottom: 15px;
   }
@@ -52,9 +52,9 @@
   
   body {
     background-image: url('/public/icons/Home.png');
-    background-size: cover;  /* Cover the entire screen */
-    background-attachment: fixed;  /* Fixed background */
-    background-position: center;  /* Center the background */
+    background-size: cover; 
+    background-attachment: fixed;  
+    background-position: center;  
   }
 
   body, html {
@@ -65,12 +65,12 @@
 
   .icon-button {
     cursor: pointer;
-    width: 80px; /* or any size you prefer */
+    width: 80px; 
     height: 80px;
-    margin: 10px; /* optional: to give some space between icons */
+    margin: 10px; 
     transition: opacity 0.3s;
   
-    /* optional: to give a visual feedback when icon is hovered */
+
     &:hover {
       opacity: 0.7;
     }
@@ -80,7 +80,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 270px; /* Adjust this value to place it 1/3 down the page */
+    margin-top: 270px; 
   }
   
   .search-container {
@@ -100,14 +100,14 @@
   background-color: #e9e6df;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 
-  /* Optional: style for the input when it's focused */
+
   &:focus {
     border-color: #6ef8f1;
   }
 }
 
 .search-button {
-  /* Style for the search button */
+
   padding: 10px 15px;
   background-color: #149ad8;
   color: white;
@@ -118,13 +118,13 @@
   font-family: 'Sofia Sans', sans-serif;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 
-  /* Optional: style for the button when it's hovered */
+
   &:hover {
     background-color: #1283b8;
   }
 }
 
-/* Add space between the input and the button */
+
 .search-input + .search-button {
   margin-left: 10px;
 }
@@ -134,18 +134,18 @@
 }
 
 .cards-container {
-  max-width: 100vw;  /* ensures the container does not exceed the viewport width */
-  overflow: hidden;  /* hides any overflow */
+  max-width: 100vw; 
+  overflow: hidden; 
   padding-left: 130px;
-  padding-right: 130px;  /* provides spacing from the edge of the screen */
+  padding-right: 130px;  
   font-family: 'Sofia Sans', sans-serif;
 }
 
 .card {
   width: 300px !important;
-  height: 430px !important;  /* Adjust as needed */
+  height: 430px !important;
   margin: 0 auto !important;
-  margin-left: 12px !important;  /* Centers the card in its container */
+  margin-left: 12px !important;  
   background-color: #e9e6df !important;
   border: #525252 solid !important;
   border-width: 1px !important;
@@ -161,39 +161,37 @@
 
 .btn {
   position: absolute !important;
-  bottom: 15px;  /* adjust this value as needed */
-  /* other styles... */
+  bottom: 15px; 
+
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   
 }
 
 .view-details-btn {
-  left: 22px;  /* adjust this value as needed */
-  /* other styles... */
+  left: 22px;  
+
   background-color: #05b47b !important;
   &:hover {
     background-color: #099667 !important;
   }
-  /* border: #000000 solid !important;
-  border-width: 1px !important; */
+
 }
 
 .add-to-faves-btn {
-  right: 22px;  /* adjust this value as needed */
-  /* other styles... */
+  right: 22px; 
+
   background-color: #149ad8 !important;
   &:hover {
     background-color: #1283b8 !important;
   }
-  /* border: #000000 solid !important;
-  border-width: 1px !important; */
+
 }
 
 
 /* This is all the navbar stuff */
 
 .navbar {
-  padding: 0.20rem 1rem !important; /* Adjust as needed */
+  padding: 0.20rem 1rem !important; 
 }
 
 .navbar-nav {
@@ -202,7 +200,7 @@
 }
 
 .nav-item {
-  margin-left: 15px !important;  /* Add some space between items */
+  margin-left: 15px !important; 
 }
 
 .navbar.bg-dark {
@@ -219,7 +217,7 @@
 .favorites-container {
   display: flex;
   align-items: center;
-  height: 100vh; /* this ensures the container takes the full height of the viewport */
+  height: 100vh;
   font-family: 'Sofia Sans', sans-serif;
 }
 
@@ -227,32 +225,50 @@
 .notes-container {
   flex: 1;
   padding: 1rem;
-  display: flex;  /* added */
-  justify-content: center;  /* added */
-  align-items: center;  /* added */
-  flex-direction: column;  /* added */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  border-radius: 8px;  
+
 }
 
 .notes-container textarea {
-  width: 40%; /* adjusted from 100% to 50% */
+  width: 40%;
   height: 200px;
   padding: 10px;
   box-sizing: border-box;
   border-radius: 5px;
   margin-right: 300px;
   margin-bottom: 5px;
+  margin-left: 35px;
+  font-size: 16px; 
+  line-height: 1.5;  
+  border: 1px solid #ccc; 
 }
 
 .Favorites-close-button {
-  margin-left: 240px;
+  margin-left: 250px;
   margin-bottom: 50px;
+  padding: 10px 20px; 
+  background-color: #007bff; 
+  color: #fff;  
+  border: none;  
+  border-radius: 5px;  
+  cursor: pointer;  
+  transition: background-color 0.2s; 
+}
+
+.Favorites-close-button:hover {
+  background-color: #0056b3; 
 }
 
 .favorites-card {
   width: 300px !important;
-  height: 320px !important;  /* Adjust as needed */
+  height: 320px !important;  
   margin: 0 auto !important;
-  margin-left: 63px !important;  /* Centers the card in its container */
+  margin-left: 63px !important; 
   margin-bottom: 20px !important;
   background-color: #e9e6df !important;
   border: #525252 solid !important;
@@ -262,9 +278,9 @@
 }
 
 .favorites-cards-container {
-  flex: 0 0 300px; /* This means: don't grow, don't shrink, stay at 300px wide */
-  height: 100vh; /* takes full height */
-  margin-right: 20px; /* gives some space between cards and notes */
+  flex: 0 0 300px; 
+  height: 100vh; 
+  margin-right: 20px; 
   justify-content: flex-start;
 }
 
@@ -290,18 +306,25 @@ margin-left: 170px !important;
 
 .favorites-card .btn {
   position: absolute;
-  bottom: 17px;  /* Adjust this value to your liking */
+  bottom: 17px; 
 
 }
 
 .favorites-container {
   background-image: url('/public/icons/Favorites-background.png');
-  background-size: cover;  /* Cover the entire screen */
-  background-attachment: fixed;  /* Fixed background */
-  background-position: center;  /* Center the background */
+  background-size: cover;  
+  background-attachment: fixed;  
+  background-position: center; 
   
   display: flex;
   align-items: center;
-  height: 100vh; /* this ensures the container takes the full height of the viewport */
+  height: 100vh; 
   font-family: 'Sofia Sans', sans-serif;
+}
+
+.page-title {
+  font-size: 30px !important; 
+  color: #ffffff; 
+  padding-bottom: 0px;
+  text-shadow: 2px 2px 4px #464646; 
 }
